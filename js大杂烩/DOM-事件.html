@@ -1,0 +1,76 @@
+<html>
+<head></head>
+<body>
+<div id="obj1">
+    welcome
+    <h5 id="obj2">hello</h5>
+    <h5 id="obj3">world</h5>
+</div>
+
+<div class="test1"></div>
+
+<label>Click me <input type="text"></label>
+<script>
+    {
+        var obj1=document.getElementById('obj1');
+        var obj2=document.getElementById('obj2');
+        obj1.addEventListener('click',function(event){
+            alert('hello');
+        },false);
+        obj2.addEventListener('click',function(event){
+            alert('world');
+            //event.stopPropagation(); //world
+        });
+        //world hello
+    }
+    {
+        document.querySelector('.test1').addEventListener('click', function () {
+            console.log(1)
+        });
+        document.querySelector('.test1').addEventListener('click', function () {
+            console.log(2)
+        }, true)
+        //1 2 如果被监听的元素没有子元素，那么哪个监听代码写在前面，就先执行哪个！
+    }
+    {
+        document.querySelector('label').addEventListener('click',function () {
+            console.log(1)
+        });
+        document.querySelector('input').addEventListener('click',function () {
+            console.log(2)
+        })
+        //1 2 1
+        /*因为label和input是有绑定的
+        点击label后，浏览器自动帮你再点击一次label
+        过程就是先进行一次事件机制，这一次对内部input元素的事件监听是不管不问的，所以先打出1
+        结束后，再进行一次事件机制，这一次，按照正常事件机制流程走，所以接着打出了2,1*/
+    }
+    /*
+    * 事件处理程序 function
+    * 事件对象 event
+    * 事件传播 浏览器决定哪个对象触发事件处理程序的过程
+    * addEventLisener(事件名，事件处理程序，是否在事件捕获阶段触发事件)
+    * on事件处理程序，不能为同一对象注册同一事件类型的多个处理程序函数
+    *
+    * 问题一：事件流的三个阶段？
+    * 事件捕获阶段、处于目标阶段和事件冒泡阶段。
+    * 首先发生的是事件捕获，为截获事件提供了机会。
+    * 然后是实际的目标接收到事件。
+    * 最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应
+    *
+    * 问题二：什么是事件委托？事件委托的原理是什么？他有那些应用场景？
+    * 目的：解决事件处理程序过多；
+    * 方式：利用事件冒泡原理，把内层节点的事件交给外层节点处理，ul有很多li,把给每个li绑定的事件绑定给ul，传递event.target确定当前点击的子节点
+    *
+    * 问题三：如何阻止事件冒泡和事件的默认行为？
+    * stopPropagation()也可以阻止事件捕获
+    * DOM3级新增事件stopImmediatePropagation()方法来阻止事件捕获
+    *
+    * 问题四：stopImmediatePropagation() 和 stopPropagation()的区别在哪儿呢？
+    * 后者只会阻止冒泡或者是捕获。 但是前者除此之外还会阻止该元素的其他事件发生，但是后者就不会阻止其他事件的发生
+    * */
+
+
+</script>
+</body>
+</html>
