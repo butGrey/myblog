@@ -64,7 +64,7 @@
     f1()()  //不管f2在何时何地执行，绑定的作用域链仍然是函数定义时创建的。
 }
 
-/*立即执行函数IIFE：创建私有作用域，定义私有属性私有函数*/
+/*立即执行函数IIFE：模仿块级作用域，创建私有作用域，定义私有属性私有函数*/
 {
     (function () {
         //模块代码
@@ -97,4 +97,46 @@
     obj1.add();
     obj2.add();
     //obj1 obj2互不影响，都能访问彼此的私有变量n
+}
+/*
+闭包中的this
+this 对象是在运行时基于函数的执行环境绑定的：在全局函数中，this 等于window，
+而当函数被作为某个对象的方法调用时，this 等于那个对象。
+匿名函数的执行环境具有全局性，因此其this 对象通常指向window。
+*/
+
+{
+    var name = "The Window";
+    var object = {
+        name : "My Object",
+        getNameFunc : function(){
+            //return this.name //my object
+            return function(){
+                return this.name; //the window
+            };
+        }
+    };
+    console.log(object.getNameFunc()()); //"The Window"（在非严格模式下）
+}
+/*
+内存泄漏：由于闭包的存在，外部函数的变量始终被引用着，闭包不结束，则引用始终存在，内存也就不会被回收
+*/
+{
+    //内存泄露
+    function person(){
+        var element=document.getElementById("someElement")
+        element.onclick=function(){
+            alert(element.id)
+        }
+    }
+
+    //解决内存泄露
+    function person(){
+        var element=document.getElementById("someElement")
+        var id=element.id    //将所需内容赋值给一个变量
+        element.onclick=function(){
+            alert(id)
+        }
+        element=null         //闭包会引用包含函数的整个活动对象,其中包含着element
+    }
 }
