@@ -26,10 +26,21 @@
             }, time);
         }
     }
-    content.onmousemove = debounce(count,1000);
+    let interv = setInterval(function () {
+        console.log('1s过去')
+    },1000)
+    debounce(add,5000)(0,1);
+    setTimeout(function () {
+        debounce(add,5000)(1,2);
+    },2000)
+    setTimeout(function () {
+        debounce(add,5000)(1,2);
+        clearInterval(interv)
+    },6000)
 }
 
 {
+    let activeTime = 0;
     function throttle(func, wait) {
         let activeTime = 0;
         return function() {
@@ -42,8 +53,8 @@
             }
         }
     }
+    let activeTime = 0;
     function throttle(func, time){
-        let activeTime = 0;
         return (...arg) => {
             const current = Date.now();
             if(current - activeTime > time) {
@@ -52,7 +63,17 @@
             }
         }
     }
-    content.onmousemove = throttle(count,1000);
+    let interv = setInterval(function () {
+        console.log('1s过去')
+    },1000)
+    debounce(add,5000)(0,1);
+    setTimeout(function () {
+        debounce(add,5000)(1,2);
+    },2000)
+    setTimeout(function () {
+        debounce(add,5000)(1,2);
+        clearInterval(interv)
+    },6000)
 }
 
 
