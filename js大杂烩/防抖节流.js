@@ -20,7 +20,7 @@
     function debounce(func, time) {
         let timer = null;
         return (...arg) => {
-            clearTimeout(timer);
+            if(timer) clearTimeout(timer);
             timer = setTimeout(()=> {
                 func.apply(this, arg)
             }, time);
