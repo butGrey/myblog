@@ -66,10 +66,23 @@ class Dsset {
 }
 
 let set01 = new Dsset();
-let set02 = new Dsset();
 set01.add('a');
 set01.add('b');
 set01.add('c');
-set02.add('b');
-set02.add('a');
-console.log(set01.subset(set02));
+/*组合*/
+let res = [];
+zuhe(set01);
+function zuhe(set){
+    for(let item of res){
+        if(item.size()==set.size()&&!item.difference(set).size()){
+            return
+        }
+    }
+    res.push(set);
+    set.values().forEach(item=>{
+        let s = new Dsset();
+        s.add(item);
+        zuhe(set.difference(s));
+    })
+}
+console.log(res);
