@@ -75,6 +75,33 @@
     }
     f()
 }
+{
+    let name = 'Tom';
+    (function() {//如果加形参，则不会改变原name，如果不加形参且内部没有var name，则改变原name
+        if (typeof name == 'undefined') {
+            name = 'Jack';
+            console.log('Goodbye ' + name);
+        } else {
+            name = 'bai';
+            console.log('Hello ' + name);
+        }
+    })();
+    console.log('Hello ' + name);//bai
+}
+
+{
+    let name = 'Tom';
+    (function(name) {
+        if (typeof name == 'undefined') {
+            name = 'Jack';
+            console.log('Goodbye ' + name);//jack
+        } else {
+            name = 'bai';
+            console.log('Hello ' + name);
+        }
+    })();//没入参name，则形参==undefined
+    console.log('Hello ' + name);//tom
+}
 
 /*利用闭包共享私有状态*/
 {
