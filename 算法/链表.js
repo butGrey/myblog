@@ -49,16 +49,15 @@ let current = linkedList.headNode;
 * 2.链表只能从头开始查找，所以是一种先进后出-->栈-->递归*/
 f1(current);
 function f1() {
-    let i = 0;
+    let i = 1;
     while (current){
-        i++;
         setTimeout((current)=>{//current在定时器内部存在异步问题，两种解法：1.定时器的第三个参数；2.立即执行函数
             console.log(current.node);
-        },100/i,current);
+        },100/i++,current);
     /*    ((current)=>{
             setTimeout(()=>{
                 console.log(current.node);
-            },100/i)
+            },100/i++)
         })(current);*/
         current = current.nextNode;
     }
