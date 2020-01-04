@@ -6,42 +6,48 @@
 * 增 删 改 查
 *
 * */
-class LinkedList {
-    constructor(headNode){
-        this.headNode = headNode;
-    }
-    insert(node){
-        if(this.headNode){
-            node.nextNode = this.headNode.nextNode;
-            this.headNode.nextNode = node;
-        }else{
-            this.headNode = node;
-            this.headNode.nextNode = null;
-        }
-    }
-}
-
 class Node {
-    constructor(node,nextNode){
-        this.node = node;
+    constructor(key,nextNode){
+        this.key = key;
         this.nextNode = nextNode;
     }
 }
+class LinkedList {
+    constructor(){
+        this.headNode = null;
+    }
+    insert(key,nextNode){
+        let newNode = new Node(key,null);
+        if(this.headNode){
+            if(nextNode){
+                let current = this.headNode;
+                while(current.nextNode){
+                    if(current.nextNode == nextNode){
+                        current.nextNode = newNode;
+                        newNode.nextNode = nextNode;
+                        break;
+                    }else{
+                        current = current.nextNode;
+                    }
+                }
+            }else{
+                newNode.nextNode = this.headNode.nextNode;
+                this.headNode.nextNode = newNode;
+            }
+        }else{
+            this.headNode = newNode;
+            this.headNode.nextNode = null;
+        }
+        return newNode;
+    }
+}
 
-/*let head = new Node(0,null);
-let node1 = new Node(11,null);
-let node2 = new Node(12,null);
-let node3 = new Node(13,null);
-let linkedList = new LinkedList(head);
-linkedList.insert(node1);
-linkedList.insert(node2);
-linkedList.insert(node3);*/
+let linkedList = new LinkedList();
+linkedList.insert(0,null);
+let node1 = linkedList.insert(1,null);
+linkedList.insert(2,null);
+linkedList.insert(3,node1);
 
-let node3 = new Node(3,null);
-let node2 = new Node(2,node3);
-let node1 = new Node(1,node2);
-let head = new Node(0,node1);
-let linkedList = new LinkedList(head);
 
 let current = linkedList.headNode;
 /*倒叙输出链表，两种解法：
@@ -52,12 +58,12 @@ function f1() {
     let i = 1;
     while (current){
         setTimeout((current)=>{//current在定时器内部存在异步问题，两种解法：1.定时器的第三个参数；2.立即执行函数
-            console.log(current.node);
+            console.log(current.key);
         },100/i++,current);
     /*    ((current)=>{
             setTimeout(()=>{
-                console.log(current.node);
-            },100/i++)
+                console.log(current.key);
+            },100/i)
         })(current);*/
         current = current.nextNode;
     }
@@ -66,5 +72,5 @@ function f2(current) {
     if(current.nextNode){
         f2(current.nextNode)
     }
-    console.log(current.node)
+    console.log(current.key)
 }
