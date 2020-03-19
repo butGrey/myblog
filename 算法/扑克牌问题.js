@@ -7,14 +7,12 @@
     let k = 1;
     function f(arr,i) {
         let is = i;
-        let j = 0;
         while (i>=0){
-            des[i] = arr[j];
+            des[i] = arr[0];
+            arr.shift();
             i = i-Math.pow(2,k);
-            j++;
         }
         k++;
-        arr.splice(0,j);
         if(arr.length){
             f(arr,is-Math.pow(2,k-2))
         }
