@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="model">
+    <p id="word"></p>
+  </body>
+  <script>
+    const model = document.getElementById("model")
+    const word = document.getElementById("word")
+    var obj= {};
+  
+    const newObj = new Proxy(obj, {
+        get: function(target, key, receiver) {
+          console.log(`getting ${key}!`);
+          return Reflect.get(target, key, receiver);
+        },
+        set: function(target, key, value, receiver) {
+          console.log('setting',target, key, value, receiver);
+          if (key === "text") {
+            model.value = value;
+            word.innerHTML = value;
+          }
+          return Reflect.set(target, key, value, receiver);
+        }
+      });
+  
+    model.addEventListener("keyup",function(e){
+      newObj.text = e.target.value
+    })
+
+
+    const obj = {};
+    Object.defineProperty(obj, 'text', {
+    get: function() {
+        console.log('get val');
+    },
+    set: function(newVal) {
+        console.log('set val:' + newVal);
+        document.getElementById('model').value = newVal;
+        document.getElementById('word').innerHTML = newVal;
+    }
+    });
+
+    const input = document.getElementById('model');
+    input.addEventListener('keyup', function(e){
+    obj.text = e.target.value;
+    })
+
+
+  </script>
+</html>
